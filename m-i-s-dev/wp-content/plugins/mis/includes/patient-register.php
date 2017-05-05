@@ -45,6 +45,11 @@
             </div>
 
             <div class="form-group">
+                <label for="phone-number"><?php _e('Phone Number:', 'trs'); ?> </label>
+                <input maxlength="13" class="form-control" type="text" name="mis-phone-number" id="phone-number" value="" placeholder="Enter Patient Phone Number">
+            </div>
+
+            <div class="form-group">
                 <label for="age"><?php _e('Age:', 'trs'); ?> </label>
                 <input class="form-control" type="text" name="mis-age" id="age" value="" placeholder="Enter patient age">
             </div>
@@ -83,15 +88,21 @@
 
 
         <?php
-        elseif(filter_input_array(INPUT_POST)):
+        elseif(filter_input_array(INPUT_POST) && !isset($_GET['step'])):
 
             $uid = esc_attr($_POST['mis-pid']);
+            /*
+             * @TODO: All patient registration form (sex, location, age etc) should also be saved.
+            */
+			$phone = esc_attr($_POST['mis-phone-number']);
 
 
             ?>
 
-            <form action='' method="POST">
+            <form action='<?php echo rtrim($_SERVER['REDIRECT_URL'], '/') . '?step=2&status=success'; ?>' method="POST">
 
+                <input type="hidden" name="phone-number" value="<?php echo $phone; ?>">
+                
                 <div class="form-group">
                     <label for="pid"><?php _e('Patient ID: ', 'trs'); ?></label>
                     <input class="form-control" type="text" name="mis-pid" id="pid" value="<?=$uid?>" readonly>
@@ -100,7 +111,7 @@
 
                 <div class="form-group">
                     <label for="ftests">Choose / Search Test</label>
-                    <select name="mis_test_list" class="form-control" id="fte111ts">
+                    <select name="mis_test_list" class="form-control mis_test_list" id="ftests">
                          <?php
 
                          $args = [
@@ -111,19 +122,30 @@
                          $result = new WP_Query( $args );
 
                          if ($result->have_posts()):
+							 echo '<option data-testprice=""  value="">Please choose Test</option>';
                              while ($result->have_posts()): $result->the_post();
 
-                                 echo '<option value="'.get_the_ID().'">' . get_the_title() . '</option>';
+                                $price =  get_post_meta(get_the_ID(), 'test_price', true);
+                                 echo '<option data-testprice="'.$price.'"  value="'.get_the_ID().'">' . get_the_title() . '  -  @ Rs. ' . $price . '</option>';
 
 
                              endwhile;
                          else:
-                             echo '<option value="nofound">No Data Found</option>';
+                             echo '<option data-testprice="" value="nofound">No Data Found</option>';
                          endif;
 
 
                          ?>
                     </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tprice">Total Price</label>
+                    <input type="text" id="tprice" readonly value="" class="form-control">
+                </div>
+                
+                <div class="form-group">
+                    <button disabled class="patient_register_step2_submit_btn btn btn-primary">Register Patient</button>
                 </div>
 
             </form>
@@ -131,7 +153,76 @@
         <?php
 
 
-
+        elseif(filter_input_array(INPUT_POST) && isset($_GET['step'])):
+ 
+            $post_data = filter_input_array(INPUT_POST);
+            
+            $patient_id = esc_attr($post_data['mis-pid']);
+            $test_lists = esc_attr($post_data['mis_test_list']);
+            $phone_number = esc_attr($post_data['phone-number']);
+			
+            $password = wp_hash_password(wp_generate_password(8));
+            
+            $uid = wp_create_user($patient_id, $password);
+            
+            /*@TODO: Make Tests Entry more Sophisticated
+            PROBLEM:
+            What will happen if User registered more tests after 10 minutes.
+            Even the previously tests are in progress.
+            It will definitely delete old record and add only new registered test.
+            
+            SOLUTION:
+            Execution should come here only if the user is not registered.
+            if user is already registered, merge old tests with new one.
+            
+            
+            PROBLEM:
+            if the old tests are very old and all tests are out dated, then what will happen ?
+            
+            SOLUTION:
+            We should save test date and status against each record. It should be multidimentional array.
+                array(
+                    01
+                        =>  '25/June/2014'
+                            'TestLists'
+                                =>  [
+                                    'test-code/post_id' => 'status',
+                                    'test-code/post_id' => 'status',
+                                    'test-code/post_id' => 'status',
+                                ],
+                            'OverallStatus'
+                                =>  [
+                                    Completed
+                                ]
+                
+                    02
+                        =>  '15/April/2017'
+                            'TestLists'
+                                =>  [
+                                    'test-code/post_id' => 'pending',
+                                ],
+                            'OverallStatus'
+                                =>  [
+                                    in process
+                                ]
+                )
+            */
+            
+            
+            
+            if ($uid && !is_object($uid)):
+                update_user_meta($uid, 'registered_tests_ids', $test_lists);
+                update_user_meta($uid, 'phone_number', $phone_number);
+                ?>
+                
+                <div class="alert alert-success">
+                    Patient has been successfully registered.
+                    <a href="<?php echo $_SERVER['HTTP_REFERER']; ?>">Go Back</a>
+                </div>
+    
+                <?php
+            endif;
+        
         endif;
 
 
