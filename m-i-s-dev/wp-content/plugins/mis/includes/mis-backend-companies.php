@@ -81,6 +81,7 @@
 
                 // Registering User
                 $id = wp_insert_user( $user );
+
                 update_user_meta($id, 'mis-address', $address);
                 update_user_meta($id, 'mis-user_type', 'company');
 

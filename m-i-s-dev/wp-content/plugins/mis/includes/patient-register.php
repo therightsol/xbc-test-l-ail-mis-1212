@@ -180,6 +180,8 @@
             if the old tests are very old and all tests are out dated, then what will happen ?
             
             SOLUTION:
+            --> IMPORTANT <-- second or third or mulitple visits must be treated as separate orders with unique orderID
+
             We should save test date and status against each record. It should be multidimentional array.
                 array(
                     01
@@ -207,7 +209,8 @@
                                 ]
                 )
             */
-            
+
+            //var_export($_SERVER);
             
             
             if ($uid && !is_object($uid)):
