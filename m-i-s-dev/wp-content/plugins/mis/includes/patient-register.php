@@ -110,7 +110,7 @@
 
 
                 <div class="form-group">
-                    <label for="ftests">Choose / Search Test</label>
+                    <label for="ftests"><?php __('Choose / Search Test:', 'trs'); ?></label>
                     <select name="mis_test_list" class="form-control mis_test_list" id="ftests">
                          <?php
 
@@ -140,7 +140,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <label for="tprice">Total Price</label>
+                    <label for="tprice"><?php __('Total Price:', 'trs');?></label>
                     <input type="text" id="tprice" readonly value="" class="form-control">
                 </div>
                 

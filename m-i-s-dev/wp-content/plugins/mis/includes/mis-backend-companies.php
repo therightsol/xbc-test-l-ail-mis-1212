@@ -38,20 +38,20 @@
                     <h1><?php _e('Register a Company', 'trs'); ?></h1>
                     <form class="form-horizontal"  method="post" action="<?php echo admin_url('admin.php?page=mis-companies'); ?>">
                          <div class="widefat">
-                            <label for="name">Name:</label>
+                            <label for="name"><?php __('Name:', 'trs');?></label>
                             <input type="text" id="name" placeholder="Enter Company Name" value="" name="name">
                         </div>
                         <div class="widefat">
-                            <label for="c_code">Company Code:</label>
+                            <label for="c_code"><?php __('Company Code:', 'trs');?></label>
                             <input type="text" id="c_code" placeholder="Enter Company Code" value="" name="c_code">
                             <span class="description">Company can logged in with code.</span>
                         </div>
                         <div class="widefat">
-                            <label for="email">Email:</label>
+                            <label for="email"><?php __('Email:', 'trs');?></label>
                             <input type="text" id="email" placeholder="Enter Company Email" value="" name="email">
                         </div>
                         <div class="widefat">
-                            <label for="address">Address:</label>
+                            <label for="address"><?php __('Address:','trs');?></label>
                             <textarea id="address" placeholder="Enter Company Address" name="address" cols="50" rows="5"></textarea>
                         </div>
 

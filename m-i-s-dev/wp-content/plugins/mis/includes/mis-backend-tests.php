@@ -15,25 +15,25 @@ function custom_post_type() {
 // Set UI labels for Custom Post Type
     $labels = array(
         'name'                => _x( 'MIS Tests', 'Post Type General Name', 'trs' ),
-        'singular_name'       => _x( 'MIS Test', 'Post Type Singular Name', 'twentythirteen' ),
-        'menu_name'           => __( 'MIS Tests', 'twentythirteen' ),
-        'parent_item_colon'   => __( 'Parent Test', 'twentythirteen' ),
-        'all_items'           => __( 'All tests', 'twentythirteen' ),
-        'view_item'           => __( 'View Tests', 'twentythirteen' ),
-        'add_new_item'        => __( 'Add New ', 'twentythirteen' ),
-        'add_new'             => __( 'Add New', 'twentythirteen' ),
-        'edit_item'           => __( 'Edit Tests', 'twentythirteen' ),
-        'update_item'         => __( 'Update Tests', 'twentythirteen' ),
-        'search_items'        => __( 'Search Tests', 'twentythirteen' ),
-        'not_found'           => __( 'Not Found', 'twentythirteen' ),
-        'not_found_in_trash'  => __( 'Not found in Trash', 'twentythirteen' ),
+        'singular_name'       => _x( 'MIS Test', 'Post Type Singular Name', 'twentythirteen', 'trs'  ),
+        'menu_name'           => __( 'MIS Tests', 'twentythirteen', 'trs'  ),
+        'parent_item_colon'   => __( 'Parent Test', 'twentythirteen', 'trs'  ),
+        'all_items'           => __( 'All tests', 'twentythirteen', 'trs'  ),
+        'view_item'           => __( 'View Tests', 'twentythirteen', 'trs'  ),
+        'add_new_item'        => __( 'Add New ', 'twentythirteen', 'trs'  ),
+        'add_new'             => __( 'Add New', 'twentythirteen', 'trs'  ),
+        'edit_item'           => __( 'Edit Tests', 'twentythirteen', 'trs'  ),
+        'update_item'         => __( 'Update Tests', 'twentythirteen', 'trs'  ),
+        'search_items'        => __( 'Search Tests', 'twentythirteen', 'trs'  ),
+        'not_found'           => __( 'Not Found', 'twentythirteen', 'trs'  ),
+        'not_found_in_trash'  => __( 'Not found in Trash', 'twentythirteen', 'trs'  ),
     );
 
 // Set other options for Custom Post Type
 
     $args = array(
-        'label'               => __( 'Tests', 'twentythirteen' ),
-        'description'         => __( 'Tests', 'twentythirteen' ),
+        'label'               => __( 'Tests', 'twentythirteen', 'trs'  ),
+        'description'         => __( 'Tests', 'twentythirteen', 'trs'  ),
         'labels'              => $labels,
         'supports'            => array( 'title', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
         'hierarchical'        => false,
@@ -60,17 +60,17 @@ function custom_post_type() {
     // Registering Categories.
 
     $labels = array(
-        'name'              => _x( 'MIS Departments', 'taxonomy general name', 'textdomain' ),
-        'singular_name'     => _x( 'MIS Department', 'taxonomy singular name', 'textdomain' ),
-        'search_items'      => __( 'Search Departments', 'textdomain' ),
-        'all_items'         => __( 'All Departments', 'textdomain' ),
-        'parent_item'       => __( 'Parent Department', 'textdomain' ),
-        'parent_item_colon' => __( 'Parent Department:', 'textdomain' ),
-        'edit_item'         => __( 'Edit Department', 'textdomain' ),
-        'update_item'       => __( 'Update Department', 'textdomain' ),
-        'add_new_item'      => __( 'Add New Department', 'textdomain' ),
-        'new_item_name'     => __( 'New Department Name', 'textdomain' ),
-        'menu_name'         => __( 'Department', 'textdomain' ),
+        'name'              => _x( 'MIS Departments', 'taxonomy general name','trs'  ),
+        'singular_name'     => _x( 'MIS Department', 'taxonomy singular name', 'textdomain', 'trs'  ),
+        'search_items'      => __( 'Search Departments','trs'  ),
+        'all_items'         => __( 'All Departments','trs'  ),
+        'parent_item'       => __( 'Parent Department','trs'  ),
+        'parent_item_colon' => __( 'Parent Department:','trs'  ),
+        'edit_item'         => __( 'Edit Department','trs'  ),
+        'update_item'       => __( 'Update Department','trs'  ),
+        'add_new_item'      => __( 'Add New Department','trs'  ),
+        'new_item_name'     => __( 'New Department Name', 'trs'  ),
+        'menu_name'         => __( 'Department', 'trs'  ),
     );
 
     $args = array(
@@ -168,71 +168,9 @@ add_action('admin_menu', 'creates_tests_menu');
 add_action( 'init', 'custom_post_type', 0 );
 
 
-if (! function_exists('get_mis_tests_html')){
-    function get_mis_tests_html(){
-        if (! filter_input_array(INPUT_POST)):
-            ?>
-            <div class="wrap">
-                <h1><?php _e('Register New Test', 'trs'); ?></h1>
-                <form class="form-horizontal"  method="post" action="<?php echo admin_url('admin.php?page=mis-companies'); ?>">
-                    <div class="widefat">
-                        <label for="name">Name:</label>
-                        <input type="text" id="name" placeholder="Enter Company Name" value="" name="name">
-                    </div>
-                    <div class="widefat">
-                        <label for="c_code">Test Code:</label>
-                        <input type="text" id="c_code" placeholder="Enter Company Code" value="" name="c_code">
-                        <span class="description">Company can logged in with code.</span>
-                    </div>
-                    <div class="widefat">
-                        <label for="email">Price:</label>
-                        <input type="text" id="price" placeholder="Enter Company Email" value="" name="email">
-                    </div>
-                    <div class="widefat">
-                        <label for="address">description:</label>
-                        <textarea id="address" placeholder="Enter Company Address" name="address" cols="50" rows="5"></textarea>
-                    </div>
-                    <div class="widefat">
-                       <!--drop down menu-->
-                        <label for="address">Department:</label>
-                        <textarea id="address" placeholder="Enter Company Address" name="address" cols="50" rows="5"></textarea>
-                    </div>
+        if (! function_exists('get_mis_tests_html')){
+                    function get_mis_tests_html(){
 
-                    <?php submit_button() ?>
-                </form>
-            </div>
-            <?php
-        elseif (filter_input_array(INPUT_POST)):
 
-            $name = esc_attr($_POST['name']);
-            $address = esc_attr($_POST['address']);
-            $c_code = esc_attr($_POST['c_code']);
-            $email = esc_attr($_POST['email']);
-
-            $clear_password = wp_generate_password(6);
-
-            date_default_timezone_set('Asia/Karachi');
-
-            $user = [
-                'user_login'    =>  $c_code,
-                'user_pass'     =>  wp_hash_password($clear_password),
-                'user_email'    =>  $email,
-                'user_registered'   => date('Y-m-d H:i:s'),
-                'user_nicename' =>  ucfirst($name),
-                'display_name'  => ucfirst($name)
-            ];
-
-            // Registering User
-            $id = wp_insert_user( $user );
-            update_user_meta($id, 'mis-address', $address);
-            update_user_meta($id, 'mis-user_type', 'company');
-
-            // Sending Welcome Email
-            $msg = "Your company \"{$name}\" has been registered with " . get_bloginfo('blogname');
-            wp_mail($email, 'Congrats! Your company has been registered', $msg);
-
-            //@TODO: add success msg.
-
-        endif;
-    }
+                    }
 }
