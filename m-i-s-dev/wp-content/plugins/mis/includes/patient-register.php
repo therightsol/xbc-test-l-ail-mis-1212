@@ -95,6 +95,10 @@
              * @TODO: All patient registration form (sex, location, age etc) should also be saved.
             */
 			$phone = esc_attr($_POST['mis-phone-number']);
+            $name= esc_attr__($_POST['mis-name']);
+            $age= esc_attr__($_POST['mis-age']);
+            $sex = esc_attr__($_POST['mis-sex']);
+            $company = esc_attr__($_POST['mis-company']);
 
 
             ?>
@@ -102,6 +106,11 @@
             <form action='<?php echo rtrim($_SERVER['REDIRECT_URL'], '/') . '?step=2&status=success'; ?>' method="POST">
 
                 <input type="hidden" name="phone-number" value="<?php echo $phone; ?>">
+                <input type="hidden" name="mis-name" value="<?php echo $name; ?>">
+                <input type="hidden" name="mis-age" value="<?php echo $age ; ?>">
+                <input type="hidden" name="mis-sex" value="<?php echo $sex;?>">
+                <input type="hidden" name="mis-company" value="<?php echo $company?>">
+
                 
                 <div class="form-group">
                     <label for="pid"><?php _e('Patient ID: ', 'trs'); ?></label>
@@ -160,10 +169,21 @@
             $patient_id = esc_attr($post_data['mis-pid']);
             $test_lists = esc_attr($post_data['mis_test_list']);
             $phone_number = esc_attr($post_data['phone-number']);
+            $mis_name = esc_attr($post_data['mis-name']);
+            $mis_age = esc_attr($post_data['mis-age']);
+            $mis_sex = esc_attr($post_data['sex']);
+            $mis_location = esc_attr($post_data['mis-company']);
 			
             $password = wp_hash_password(wp_generate_password(8));
-            
-            $uid = wp_create_user($patient_id, $password);
+            date_default_timezone_set('Asia/Karachi');
+            $user = [
+                    'user_login' => $patient_id,
+                    'user_pass' => $password,
+                    'display_name' => $mis_name,
+                    'user_nicename' => $mis_name,
+                    'user_registered' => date ('Y-m-d H-i-m')
+            ];
+            $uid = wp_insert_user($user);
             
             /*@TODO: Make Tests Entry more Sophisticated
             PROBLEM:
@@ -216,6 +236,9 @@
             if ($uid && !is_object($uid)):
                 update_user_meta($uid, 'registered_tests_ids', $test_lists);
                 update_user_meta($uid, 'phone_number', $phone_number);
+                update_user_meta($uid, 'age', $mis_age);
+                update_user_meta($uid, 'sex', $mis_sex);
+                update_user_meta($uid, 'location', $mis_location);
                 ?>
                 
                 <div class="alert alert-success">
