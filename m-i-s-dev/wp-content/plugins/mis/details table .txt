@@ -1,0 +1,12 @@
+Order:
+ID  pid company date&Time   author
+
+
+
+Details Table:
+
+ID  oid test_id test_value1 test_value2 test_value3 date&time status status_date
+
+
+Status:
+id  title   date

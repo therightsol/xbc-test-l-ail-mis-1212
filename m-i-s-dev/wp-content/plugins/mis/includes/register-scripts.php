@@ -13,6 +13,10 @@
             wp_enqueue_script('mis-bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js', ['jquery'], null, true);
             wp_enqueue_script('select2', 'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js', ['jquery'], null, true);
             wp_enqueue_script('frontend', MIS_ASSETS . '/js/frontend.js', ['jquery', 'select2'], null, true);
+	
+	
+			wp_localize_script( 'frontend', 'ajax_object',
+								array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+        
         }
     }
-    

@@ -33,6 +33,9 @@
     // MIS add tests
     require_once ('includes/mis-backend-tests.php');
 
+    
+    // Handling Ajax Related Stuff
+	require_once 'includes/mis-handle-ajax.php';
 
     // Hook plugin activated
     register_activation_hook( __FILE__, 'mis_plugin_activated' );
